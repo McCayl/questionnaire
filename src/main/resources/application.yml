@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:file:D:/DBeaver/Database/questionnaire/questionnaireDB;AUTO_SERVER=TRUE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  h2:
+    console.enabled: true
+
+security:
+  jwt:
+    access:
+      secret: McCayl
+      ExpirationMinutes: 5
+    refresh:
+      secret: lyaCcM
+      ExpirationDays: 30
