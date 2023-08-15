@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EmailDTO {
     private String sendTo;
-    private String msgBody;
     private String subject;
-    private String attachment;
+    private String msgBody;
 }

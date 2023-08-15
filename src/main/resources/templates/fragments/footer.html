@@ -17,7 +17,7 @@
             <span sec:authorize="isAuthenticated()">
                 | Авторизован пользователь: <span sec:authentication="firstName"></span> |
                 Роль: <span sec:authentication="roles"></span> |
-                <a th:href="@{/}">Выйти из аккаунта</a>
+                <a th:href="@{/auth/logout}">Выйти из аккаунта</a>
             </span>
 
             <script type="text/javascript"

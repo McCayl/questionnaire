@@ -7,12 +7,10 @@ import com.mccayl.questionnaire.service.UserTestService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/test")
 @AllArgsConstructor
-public class TestController {
+public class TestRestController {
     private TestService testService;
     private UserTestService userTestService;
 

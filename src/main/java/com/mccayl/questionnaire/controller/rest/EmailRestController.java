@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-public class EmailController {
+public class EmailRestController {
 
     private EmailService emailService;
 

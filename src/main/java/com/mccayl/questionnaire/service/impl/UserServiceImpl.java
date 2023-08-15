@@ -1,10 +1,8 @@
 package com.mccayl.questionnaire.service.impl;
 
 import com.mccayl.questionnaire.dto.TestScoreDTO;
-import com.mccayl.questionnaire.model.Role;
 import com.mccayl.questionnaire.model.User;
 import com.mccayl.questionnaire.model.UserTest;
-import com.mccayl.questionnaire.repo.RoleRepository;
 import com.mccayl.questionnaire.repo.UserRepository;
 import com.mccayl.questionnaire.service.UserService;
 import lombok.AllArgsConstructor;
@@ -19,14 +17,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
 
     @Override
     public User save(User user) {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        roleRepository.save(role);
-        user.addRole(roleRepository.findByName("ROLE_ADMIN"));
         return userRepository.saveAndFlush(user);
     }
 

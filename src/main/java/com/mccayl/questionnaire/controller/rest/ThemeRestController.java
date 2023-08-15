@@ -7,7 +7,6 @@ import com.mccayl.questionnaire.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/theme")
 @AllArgsConstructor
-public class ThemeController {
+public class ThemeRestController {
     private ThemeService themeService;
 
     @GetMapping

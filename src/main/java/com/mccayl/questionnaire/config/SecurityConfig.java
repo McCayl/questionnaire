@@ -1,7 +1,7 @@
 package com.mccayl.questionnaire.config;
 
-import com.mccayl.questionnaire.jwt.JWTFilter;
 import com.mccayl.questionnaire.security.AuthEntryPoint;
+import com.mccayl.questionnaire.security.SetPasswordAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final AuthEntryPoint authEntryPoint;
-    private final JWTFilter jwtFilter;
+    private final SetPasswordAuthFilter setPasswordAuthFilter;
 
     @Bean
     @Override
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Override
@@ -44,20 +44,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
-                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers(
-                        "/api/v1/auth/**",
+                .addFilterBefore(setPasswordAuthFilter, BasicAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
+                .authorizeRequests()
+                .antMatchers(
                         "/",
-                        "/registration",
+                        "/auth/**",
                         "/css/**",
                         "/webjars/**",
                         "/favicon.ico")
                 .permitAll()
-                .anyRequest().authenticated().and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .permitAll();
-        //http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated();
     }
 }
