@@ -1,4 +1,4 @@
-2023-08-15 16:39:41 jdbc[3]: exception
+2023-08-23 17:02:01 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
 	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
 	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:183)
@@ -21,65 +21,7 @@ java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supporte
 	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-2023-08-15 16:42:18 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ROLE_USER" not found; SQL statement:
-INSERT INTO "ROLE" VALUES (2, "ROLE_USER") [42122-199]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
-	at org.h2.message.DbException.get(DbException.java:205)
-	at org.h2.message.DbException.get(DbException.java:181)
-	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
-	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
-	at org.h2.command.dml.Insert.prepare(Insert.java:322)
-	at org.h2.command.Parser.prepareCommand(Parser.java:689)
-	at org.h2.engine.Session.prepareLocal(Session.java:627)
-	at org.h2.engine.Session.prepareCommand(Session.java:565)
-	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
-	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:582)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:491)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:501)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:924)
-	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:3895)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
-	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:189)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5096)
-	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-2023-08-15 16:42:27 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "ROLE_ADMIN" not found; SQL statement:
-INSERT INTO "ROLE" VALUES (1, "ROLE_ADMIN") [42122-199]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
-	at org.h2.message.DbException.get(DbException.java:205)
-	at org.h2.message.DbException.get(DbException.java:181)
-	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
-	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
-	at org.h2.command.dml.Insert.prepare(Insert.java:322)
-	at org.h2.command.Parser.prepareCommand(Parser.java:689)
-	at org.h2.engine.Session.prepareLocal(Session.java:627)
-	at org.h2.engine.Session.prepareCommand(Session.java:565)
-	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
-	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
-	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
-	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.execute(JDBCStatementImpl.java:330)
-	at org.jkiss.dbeaver.model.impl.jdbc.exec.JDBCStatementImpl.executeStatement(JDBCStatementImpl.java:131)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeStatement(SQLQueryJob.java:582)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.lambda$1(SQLQueryJob.java:491)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.executeSingleQuery(SQLQueryJob.java:501)
-	at org.jkiss.dbeaver.ui.editors.sql.execute.SQLQueryJob.extractData(SQLQueryJob.java:924)
-	at org.jkiss.dbeaver.ui.editors.sql.SQLEditor$QueryResultsContainer.readData(SQLEditor.java:3895)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.lambda$0(ResultSetJobDataRead.java:123)
-	at org.jkiss.dbeaver.model.exec.DBExecUtils.tryExecuteRecover(DBExecUtils.java:189)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetJobDataRead.run(ResultSetJobDataRead.java:121)
-	at org.jkiss.dbeaver.ui.controls.resultset.ResultSetViewer$ResultSetDataPumpJob.run(ResultSetViewer.java:5096)
-	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
-	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-2023-08-15 21:05:41 jdbc[3]: exception
+2023-08-23 17:08:41 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
 	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
 	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:183)
@@ -98,7 +40,7 @@ java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supporte
 	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
-2023-08-15 21:12:38 jdbc[3]: exception
+2023-08-23 17:15:13 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
 	at org.h2.jdbc.JdbcConnection.setClientInfo(JdbcConnection.java:1822)
 	at org.jkiss.dbeaver.ext.generic.model.GenericDataSource.populateClientAppName(GenericDataSource.java:183)
@@ -114,10 +56,6 @@ java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supporte
 	at org.jkiss.dbeaver.ext.generic.GenericDataSourceProvider.openDataSource(GenericDataSourceProvider.java:106)
 	at org.jkiss.dbeaver.registry.DataSourceDescriptor.openDataSource(DataSourceDescriptor.java:1206)
 	at org.jkiss.dbeaver.registry.DataSourceDescriptor.connect(DataSourceDescriptor.java:1071)
-	at org.jkiss.dbeaver.ui.editors.DatabaseLazyEditorInput.initializeRealInput(DatabaseLazyEditorInput.java:260)
-	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:172)
-	at org.jkiss.dbeaver.ui.editors.ProgressEditorPart$InitNodeService.evaluate(ProgressEditorPart.java:1)
-	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:88)
-	at org.jkiss.dbeaver.ui.LoadingJob.run(LoadingJob.java:72)
+	at org.jkiss.dbeaver.runtime.jobs.ConnectJob.run(ConnectJob.java:77)
 	at org.jkiss.dbeaver.model.runtime.AbstractJob.run(AbstractJob.java:105)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

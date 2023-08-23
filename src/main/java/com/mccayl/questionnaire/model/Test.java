@@ -18,6 +18,7 @@ public class Test {
     private String name;
     private boolean available;
     private int attempts;
+    private int runtimeInMin;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
     private Theme theme;
