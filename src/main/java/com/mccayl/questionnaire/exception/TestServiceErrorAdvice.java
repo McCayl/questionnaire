@@ -12,6 +12,20 @@ public class TestServiceErrorAdvice {
         return ex.getMessage();
     }
     @ResponseBody
+    @ExceptionHandler(QuestionNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String QuestionNotFoundHandler(QuestionNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AnswerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String AnswerNotFoundHandler(AnswerNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
     @ExceptionHandler(TestNotEditedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String testNotEditedHandler(TestNotEditedException ex) {
