@@ -1,0 +1,42 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>Admin Page</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <form th:action="@{/user/admin/usertest}" method="get">
+            <input type="text" name="keyword" id="keyword" th:value="${keyword}"/>
+            &nbsp;
+            <input type="submit" value="Найти" class="btn btn-default" />
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>email</th>
+                    <th>Test</th>
+                    <th>Score</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ui : ${userInfo}">
+                    <td th:text="${ui.id}"></td>
+                    <td th:text="${ui.user.email}"></td>
+                    <td th:text="${ui.test.name}"></td>
+                    <td th:text="${ui.userScore}"></td>
+                    <td>
+                        <a th:href="@{/user/admin/usertest/{utId}/questions(utId=${ui.id})}" class="btn btn-primary">Вопросы</a> 
+                        <a th:href="@{/user/admin/usertest/{utId}/rating(utId=${ui.id})}" class="btn btn-primary">Рейтинг</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- userInfo pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${userInfo}, ${url})"></nav>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>User Answers</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Text</th>
+                    <th>IsCorrect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${answers}">
+                    <td th:text="${a.text}"></td>
+                    <td th:text="${a.correct}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- answers pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${answers}, ${url})"></nav>
+    </div>
+</body>
+</html>

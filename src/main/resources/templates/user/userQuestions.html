@@ -1,0 +1,30 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>User Questions</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Text</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="q : ${questions}">
+                    <td th:text="${q.text}"></td>
+                    <td>
+                        <a th:href="@{questions/{qId}/answers(qId=${q.id})}" class="btn btn-primary">Ответы</a> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- questions pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${questions}, ${url})"></nav>
+    </div>
+</body>
+</html>

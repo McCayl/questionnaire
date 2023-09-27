@@ -1,0 +1,30 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>User rating</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ThemeName</th>
+                    <th>rank</th>
+                    <th>score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${rating}">
+                    <td th:text="${r.themeName}"></td>
+                    <td th:text="${r.rank}"></td>
+                    <td th:text="${r.score}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- rating pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${rating}, ${url})"></nav>
+    </div>
+</body>
+</html>
