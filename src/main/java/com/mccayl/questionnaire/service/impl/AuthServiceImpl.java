@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
             User preAuthUser = new User();
             preAuthUser.setEmail(email);
             String setPasswordToken = jwtService.generateToken(preAuthUser);
-            String setPasswordUrl = "http://localhost:8080/auth/setpassword/" + setPasswordToken;
+            String setPasswordUrl = "http://localhost:8080/auth/setpassword/?token=" + setPasswordToken;
 
             emailService.sendSimpleMail(new EmailDTO(
                     email,
@@ -65,9 +65,13 @@ public class AuthServiceImpl implements AuthService {
     private void authenticate(String email,
                               String password,
                               Collection<? extends GrantedAuthority> authorities) {
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password, authorities));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            Authentication authentication =
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password, authorities));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.mccayl.questionnaire.config;
 
 import com.mccayl.questionnaire.security.AuthEntryPoint;
-import com.mccayl.questionnaire.security.SetPasswordAuthFilter;
+import com.mccayl.questionnaire.security.ValidRequestTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final AuthEntryPoint authEntryPoint;
-    private final SetPasswordAuthFilter setPasswordAuthFilter;
+    private final ValidRequestTokenFilter validRequestTokenFilter;
 
     @Bean
     @Override
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
-                .addFilterBefore(setPasswordAuthFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(validRequestTokenFilter, BasicAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
                 .authorizeRequests()
                 .antMatchers(
@@ -54,6 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/favicon.ico")
                 .permitAll()
+                .antMatchers(
+                        "**/admin/**",
+                        "**/save/**",
+                        "**/update/**",
+                        "**/delete/**")
+                .hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
 }

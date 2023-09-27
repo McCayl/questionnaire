@@ -1,8 +1,9 @@
 package com.mccayl.questionnaire.security;
 
-import com.mccayl.questionnaire.model.User;
 import com.mccayl.questionnaire.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -11,23 +12,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class SetPasswordAuthFilter extends OncePerRequestFilter {
+public class ValidRequestTokenFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getServletPath();
-        String setPasswordPath = path.substring(0, path.lastIndexOf('/') + 1);
+        Optional<String> requestToken = Optional.ofNullable(request.getParameter("token"));
 
-        if ("/auth/setpassword/".equals(setPasswordPath)) {
-            String token = path.substring(path.lastIndexOf('/') + 1);
-            if (!jwtService.isTokenValid(token))
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
+        if (requestToken.isPresent() && !jwtService.isTokenValid(requestToken.get()))
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 
         filterChain.doFilter(request, response);
     }

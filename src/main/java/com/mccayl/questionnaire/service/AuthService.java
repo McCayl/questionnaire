@@ -8,5 +8,5 @@ public interface AuthService {
     void signup(String email);
     void signin(LoginDTO loginDTO);
     void logout(HttpServletRequest request);
-    void setPassword(String uuid, String password);
+    void setPassword(String token, String password);
 }
