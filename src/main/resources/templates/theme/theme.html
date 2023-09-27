@@ -1,0 +1,41 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>Theme</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
+                    <th>Name</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="theme : ${themes}">
+                    <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${theme.id}"></td>
+                    <td>
+                        <a th:text="${theme.name}" th:href="@{theme/{id}/tests(id=${theme.id})}"></a>
+                    </td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"> 
+                        <form th:action="@{/theme/{id}/delete(id=${theme.id})}" method="post">
+                            <a th:href="@{/theme/update/{id}(id=${theme.id})}" class="btn btn-primary">Update</a>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{/theme/save}" class="btn btn-primary">Add</a>
+        </div>
+        <!-- themes pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${themes}, ${url})"></nav>
+    </div>
+</body>
+</html>

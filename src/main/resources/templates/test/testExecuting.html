@@ -1,0 +1,61 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>Test Executing</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container-fluid text-center">
+        <form 
+            th:action="@{/test/{testId}/executing/save?userTestId={userTestId}&token={token}(testId=${testId},userTestId=${executingTest.userTest.id},token=${token})}" 
+            th:object="${executingTest}" 
+            method="post" 
+            style="max-width: 350px; margin: 0 auto;">
+            <div class="border border-secondary p-3 rounded">
+                <p th:text="*{question.text}"></p>
+                <div id="clock" onload="updateTime()"></div>
+                <ul>
+                    <li th:each="answer : *{answers}">
+                        <input type="hidden" th:value="${question}" th:field="*{question}" />
+                        <input type="hidden" th:value="${userTest}" th:field="*{userTest}" />
+                        <input th:if="*{numberOfCorrectAnswers > 1}" type="checkbox" th:value="${answer.id}" th:field="*{userAnswers}"/>
+                        <input th:unless="*{numberOfCorrectAnswers > 1}" type="radio" th:value="${answer.id}" th:field="*{userAnswers}"/>
+                        <label th:text="${answer.text}"></label>
+                    </li>
+                </ul>
+                <p>
+                    <input type="submit" value="Далее" class="btn btn-default" />
+                </p>
+            </div>
+        </form>  
+    </div>
+    <script th:inline="javascript">
+        const timeElement = document.getElementById("clock");
+        const countDown = /*[[${executeTime}]]*/
+
+        function updateTime() {
+            const now = new Date().getTime()
+            
+            const distance = new Date(countDown - now);
+            const minutes = distance.getMinutes();
+            const seconds = distance.getSeconds();
+                
+            const clockStr = minutes + "m " + seconds + "s";
+            if (distance < 0) {
+                timeElement.innerText = "0m 0s"
+                const url = window.location.pathname.replace('executing', 'after')
+                const params = new URLSearchParams(window.location.search)
+                params.set("token", /*[[${afterCompletionToken}]]*/)
+                
+                window.location.href = `${url}?${params}`
+            }
+
+            timeElement.innerText = clockStr;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

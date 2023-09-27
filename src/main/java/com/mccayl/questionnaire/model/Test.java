@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -19,10 +20,20 @@ public class Test {
     private boolean available;
     private int attempts;
     private int runtimeInMin;
+    private Float coeffOfCorrectAnswer;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
+    @ToString.Exclude
     private Theme theme;
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "test_id")
     private List<Question> questions;
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    public void delQuestion(Question question) {
+        questions.remove(question);
+    }
 }

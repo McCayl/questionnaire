@@ -25,8 +25,9 @@ public class TestRestController {
     }
 
     @PostMapping
-    public Test addTest(@RequestBody Test test) {
-        return testService.save(test);
+    public Test addTest(@RequestParam Long themeId,
+                        @RequestBody Test test) {
+        return testService.save(themeId, test);
     }
 
     @PutMapping("{id}")

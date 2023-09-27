@@ -1,12 +1,15 @@
 package com.mccayl.questionnaire.controller.rest;
 
+import com.mccayl.questionnaire.dto.UserRatingDTO;
 import com.mccayl.questionnaire.dto.UserScoreDTO;
 import com.mccayl.questionnaire.model.Test;
 import com.mccayl.questionnaire.model.Theme;
+import com.mccayl.questionnaire.model.User;
 import com.mccayl.questionnaire.service.ThemeService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +27,8 @@ public class ThemeRestController {
     }
 
     @GetMapping("rating/{themeId}")
-    public List<UserScoreDTO> getUserRating(@PathVariable Long themeId) {
-        return themeService.getUserRating(themeId);
+    public List<UserRatingDTO> getUserRating(Long themeId, @AuthenticationPrincipal User user) {
+        return themeService.getUserRating(themeId, user.getEmail());
     }
 
     @GetMapping("{themeId}/tests")

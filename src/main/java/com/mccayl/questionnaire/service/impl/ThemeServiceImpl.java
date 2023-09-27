@@ -1,36 +1,67 @@
 package com.mccayl.questionnaire.service.impl;
 
+import com.mccayl.questionnaire.dto.UserRatingDTO;
 import com.mccayl.questionnaire.dto.UserScoreDTO;
+import com.mccayl.questionnaire.exception.ThemeNotDeletedException;
 import com.mccayl.questionnaire.model.Test;
 import com.mccayl.questionnaire.model.Theme;
 import com.mccayl.questionnaire.repo.ThemeRepository;
 import com.mccayl.questionnaire.service.ThemeService;
+import com.mccayl.questionnaire.service.UserTestService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ThemeServiceImpl implements ThemeService {
 
-    private ThemeRepository themeRepository;
-
+    private final ThemeRepository themeRepository;
+    private final UserTestService userTestService;
     @Override
     public Page<Theme> getThemes(Pageable pageable) {
         return themeRepository.getThemes(pageable);
     }
 
     @Override
-    public List<UserScoreDTO> getUserRating(Long themeId) {
-        return themeRepository.getUserRating(
-                themeId,
-                PageRequest.of(0, 10, Sort.by("score").descending()));
+    public Theme getThemeById(Long themeId) {
+        return themeRepository.findThemeById(themeId);
+    }
+
+    @Override
+    public List<UserRatingDTO> getUserRating(Long themeId, String email) {
+        List<UserScoreDTO> userScore = themeRepository.getUserRating(themeId, null);
+        List<UserRatingDTO> userRating = new ArrayList<>();
+        Comparator<UserScoreDTO> byScoreDesc = (o1, o2) -> Math.toIntExact(o2.getScore() - o1.getScore());
+
+        userScore.sort(byScoreDesc);
+
+        int resultSize = Math.min(userScore.size(), 10);
+        for (int i = 0; i != resultSize; i++) {
+            UserScoreDTO userScoreDTO = userScore.get(i);
+            userRating.add(new UserRatingDTO(i + 1, userScoreDTO.getEmail(), userScoreDTO.getScore()));
+        }
+
+        Optional<UserScoreDTO> optionalUserScoreDTO = userScore.stream()
+                .filter(userScoreDTO -> userScoreDTO.getEmail().equals(email))
+                .findFirst();
+
+        if (optionalUserScoreDTO.isPresent()) {
+            UserScoreDTO user = optionalUserScoreDTO.get();
+            UserRatingDTO userRatingDTO = new UserRatingDTO(userScore.indexOf(user) + 1,
+                    user.getEmail(),
+                    user.getScore());
+
+            if (!userRating.contains(userRatingDTO))
+                userRating.add(userRatingDTO);
+        }
+
+        return userRating;
     }
 
     @Override
@@ -39,7 +70,24 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
+    public Page<Test> getTests(Long themeId, Pageable pageable) {
+        return themeRepository.getTests(themeId, pageable);
+    }
+
+    @Override
     public Theme save(Theme theme) {
         return themeRepository.saveAndFlush(theme);
+    }
+
+    @Override
+    @Transactional
+    public void del(Long themeId) {
+        Theme theme = themeRepository.findThemeById(themeId);
+
+        if (userTestService.isAnyTestCompleted(theme.getTests())) {
+            throw new ThemeNotDeletedException(themeId);
+        }
+
+        themeRepository.deleteById(themeId);
     }
 }

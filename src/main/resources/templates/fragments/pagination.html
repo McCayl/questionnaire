@@ -1,0 +1,48 @@
+<nav th:fragment="pagination(pageobj, pageurl)" aria-label="Pagination" th:if="${pageobj.totalPages gt 0}">
+    <ul class="pagination justify-content-center font-weight-medium">
+        <li class="page-item" th:classappend="${pageobj.number eq 0} ? 'disabled'">
+            <a th:if="${param.keyword != null}" 
+                class="page-link"
+                th:href="@{/{pageurl}?page={id}&keyword={keyword}(id=${pageobj.number lt 2 ? 1 : pageobj.number},pageurl=${pageurl},keyword=${param.keyword})}"
+                aria-label="Previous" title="Previous Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Previous</span>
+            </a>
+            <a th:unless="${param.keyword != null}" 
+                class="page-link"
+                th:href="@{/{pageurl}?page={id}(id=${pageobj.number lt 2 ? 1 : pageobj.number}, pageurl=${pageurl})}"
+                aria-label="Previous" title="Previous Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Previous</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${i eq pageobj.number + 1} ? 'active'"
+            th:each="i : ${#numbers.sequence( pageobj.number + 1, pageobj.totalPages > 10 + pageobj.number ? pageobj.number + 10 : pageobj.totalPages, 1)}">
+            <a th:if="${param.keyword != null}" 
+                class="page-link" 
+                th:href="@{/{pageurl}?page={id}&keyword={keyword}(id=${i},pageurl=${pageurl},keyword=${param.keyword})}" th:text="${i}"
+                th:title="${'Page '+ i}" rel="tooltip"></a>
+            <a th:unless="${param.keyword != null}" 
+                class="page-link" 
+                th:href="@{/{pageurl}?page={id}(id=${i}, pageurl=${pageurl})}" th:text="${i}"
+                th:title="${'Page '+ i}" rel="tooltip"></a>
+        </li>
+        <li class="page-item disabled" th:if="${pageobj.number + 10 < pageobj.totalPages}">
+            <a class="page-link" href="#">
+                <span data-feather="more-horizontal" width="20" height="20"></span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${pageobj.number + 1 eq pageobj.totalPages} ? 'disabled'">
+            <a th:if="${param.keyword != null}" 
+                class="page-link" 
+                th:href="@{/{pageurl}?page={id}&keyword={keyword}(id=${pageobj.number + 2},pageurl=${pageurl},keyword=${param.keyword})}"
+                aria-label="Next" title="Next Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Next</span>
+            </a>
+            <a th:unless="${param.keyword != null}" 
+                class="page-link" 
+                th:href="@{/{pageurl}?page={id}(id=${pageobj.number + 2},pageurl=${pageurl})}"
+                aria-label="Next" title="Next Page" rel="tooltip">
+                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>

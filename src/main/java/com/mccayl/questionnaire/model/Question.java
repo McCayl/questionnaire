@@ -16,7 +16,15 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "question_id")
     private List<Answer> answers;
+
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
+    }
+
+    public void delAnswer(Answer answer) {
+        answers.remove(answer);
+    }
 }

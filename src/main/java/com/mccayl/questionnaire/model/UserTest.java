@@ -15,13 +15,20 @@ public class UserTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int userScore;
+    private long userScore;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")
     private Test test;
+    @ManyToMany
+    @JoinTable(
+            name = "user_test_question",
+            joinColumns = @JoinColumn(name = "user_test_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private Set<Question> questions;
     @ManyToMany
     @JoinTable(
             name = "user_test_answer",

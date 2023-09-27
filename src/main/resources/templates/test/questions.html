@@ -1,0 +1,42 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>Questions</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
+                    <th>Text</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question : ${questions}">
+                    <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${question.id}"></td>
+                    <td>
+                        <span th:text="${question.text}"></span>
+                    </td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                        <form th:action="@{questions/{questionId}/delete(questionId=${question.id})}" method="post">
+                            <a th:href="@{questions/{questionId}/answers(questionId=${question.id})}" class="btn btn-primary">Перейти к ответам</a> 
+                            <a th:href="@{update/question/{questionId}(questionId=${question.id})}" class="btn btn-primary">Update</a>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{save/question}" class="btn btn-primary">Add</a>
+        </div>
+        <!-- questions pagination -->
+        <nav th:replace="fragments/pagination :: pagination(${questions}, ${url})"></nav>
+    </div>
+</body>
+</html>
