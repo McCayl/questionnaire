@@ -175,34 +175,18 @@ public class TestController {
                                     @RequestParam String token,
                                     @AuthenticationPrincipal User user,
                                     Model model) {
-        UserTest userTest;
         Test test = testService.getOne(testId);
+        UserTest userTest = userTestService.getUserTestByOptionalId(userTestId, test, user);
         String afterCompletionToken = jwtService.generateToken(user, test.getRuntimeInMin() + 1);
-
-        if (userTestId.isEmpty()) {
-            userTest = userTestService.getEmptyUserTest(test, user);
-            userTest = userTestService.save(userTest);
-        } else {
-            userTest = userTestService.getById(userTestId.get());
-        }
 
         List<Question> questions = userTestService
                 .getNotCompletedQuestions(testId, userTest);
 
         if (!questions.isEmpty()) {
             Long executeTime = jwtService.extractExpiration(token).getTime();
-            Question question = questions.get(new Random().nextInt(questions.size()));
-            List<Answer> answers = question.getAnswers();
-            List<Long> userAnswers = new ArrayList<>();
-            int numberOfCorrectAnswers = userTestService
-                    .countCorrectAnswers(answers);
 
-            model.addAttribute("executingTest", new ExecutingTestDTO(
-                    question,
-                    answers,
-                    numberOfCorrectAnswers,
-                    userAnswers,
-                    userTest));
+            model.addAttribute("executingTest",
+                    userTestService.getExecutingTestInfo(questions, userTest));
             model.addAttribute("token", token);
             model.addAttribute("afterCompletionToken", afterCompletionToken);
             model.addAttribute("testId", testId);
@@ -217,20 +201,7 @@ public class TestController {
     public String executingTest(@RequestParam Long userTestId,
                                 @RequestParam String token,
                                 @ModelAttribute("executingTest") ExecutingTestDTO executingTestDTO) {
-        UserTest userTest = executingTestDTO.getUserTest();
-        Long userScore = userTest.getUserScore();
-        Test test = userTest.getTest();
-        Question completedQuestion = executingTestDTO.getQuestion();
-        List<Answer> userSelectedAnswers = userTestService
-                .getUserAnswersByIds(executingTestDTO.getUserAnswers());
-
-        userScore += userTestService
-                .countUserScore(test.getCoeffOfCorrectAnswer(), userSelectedAnswers);
-        userTest.setUserScore(userScore);
-        userTest.getQuestions().add(completedQuestion);
-        userTest.getAnswers().addAll(userSelectedAnswers);
-        userTestService.save(userTest);
-
+        userTestService.saveUserResults(executingTestDTO);
         return "redirect:/test/{testId}/executing?" + "userTestId=" + userTestId + "&" + "token=" + token;
     }
 
@@ -238,12 +209,8 @@ public class TestController {
     public String afterCompletionPage(@RequestParam(required = false) Optional<Long> userTestId,
                                       @RequestParam String token,
                                       Model model) {
-        long userScore = 0;
-
-        if (userTestId.isPresent())
-            userScore = userTestService.getById(userTestId.get()).getUserScore();
-
-        model.addAttribute("userScore", userScore);
+        model.addAttribute("userScore",
+                userTestService.getUserScoreByOptionalUtId(userTestId));
         return "test/afterCompletion";
     }
 }

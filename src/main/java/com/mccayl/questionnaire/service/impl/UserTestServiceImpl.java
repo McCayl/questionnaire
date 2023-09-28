@@ -1,5 +1,6 @@
 package com.mccayl.questionnaire.service.impl;
 
+import com.mccayl.questionnaire.dto.ExecutingTestDTO;
 import com.mccayl.questionnaire.model.*;
 import com.mccayl.questionnaire.repo.QuestionRepository;
 import com.mccayl.questionnaire.repo.UserTestRepository;
@@ -21,6 +22,22 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
+    public void saveUserResults(ExecutingTestDTO executingTestDTO) {
+        UserTest userTest = executingTestDTO.getUserTest();
+        Long userScore = userTest.getUserScore();
+        Test test = userTest.getTest();
+        Question completedQuestion = executingTestDTO.getQuestion();
+        List<Answer> userSelectedAnswers =
+                getUserAnswersByIds(executingTestDTO.getUserAnswers());
+
+        userScore += countUserScore(test.getCoeffOfCorrectAnswer(), userSelectedAnswers);
+        userTest.setUserScore(userScore);
+        userTest.getQuestions().add(completedQuestion);
+        userTest.getAnswers().addAll(userSelectedAnswers);
+        save(userTest);
+    }
+
+    @Override
     public UserTest getById(Long userTestId) {
         return userTestRepository.findUserTestById(userTestId);
     }
@@ -32,6 +49,22 @@ public class UserTestServiceImpl implements UserTestService {
         userTest.setUser(user);
         userTest.setAnswers(new HashSet<>());
         userTest.setQuestions(new HashSet<>());
+        return userTest;
+    }
+
+    @Override
+    public UserTest getUserTestByOptionalId(Optional<Long> userTestId,
+                                            Test test,
+                                            User user) {
+        UserTest userTest;
+
+        if (userTestId.isEmpty()) {
+            userTest = getEmptyUserTest(test, user);
+            userTest = save(userTest);
+        } else {
+            userTest = getById(userTestId.get());
+        }
+
         return userTest;
     }
 
@@ -60,6 +93,16 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
+    public long getUserScoreByOptionalUtId(Optional<Long> userTestId) {
+        long userScore = 0;
+
+        if (userTestId.isPresent())
+            userScore = getById(userTestId.get()).getUserScore();
+
+        return userScore;
+    }
+
+    @Override
     public Long countUserScore(Float coeffOfCorrectAnswer,
                                List<Answer> userAnswers) {
         int correctAnswers = countCorrectAnswers(userAnswers);
@@ -81,5 +124,26 @@ public class UserTestServiceImpl implements UserTestService {
         }
 
         return false;
+    }
+
+    @Override
+    public ExecutingTestDTO getExecutingTestInfo(List<Question> notCompletedQuestions,
+                                                 UserTest userTest) {
+        Question question = getRandomQuestion(notCompletedQuestions);
+        List<Answer> answers = question.getAnswers();
+        int numberOfCorrectAnswers = countCorrectAnswers(answers);
+        List<Long> userAnswers = new ArrayList<>();
+
+        return new ExecutingTestDTO(
+                question,
+                answers,
+                numberOfCorrectAnswers,
+                userAnswers,
+                userTest);
+    }
+
+    @Override
+    public Question getRandomQuestion(List<Question> questions) {
+        return questions.get(new Random().nextInt(questions.size()));
     }
 }
