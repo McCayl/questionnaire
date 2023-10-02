@@ -7,6 +7,7 @@
 <body>
     <div th:replace="~{fragments/header :: header}"/>
     <div class="container">
+        <h4>История прохождения тестов пользователями</h4>
         <form th:action="@{/user/admin/usertest}" method="get">
             <input type="text" name="keyword" id="keyword" th:value="${keyword}"/>
             &nbsp;
@@ -17,8 +18,8 @@
                 <tr>
                     <th>Id</th>
                     <th>email</th>
-                    <th>Test</th>
-                    <th>Score</th>
+                    <th>Название теста</th>
+                    <th>Баллы</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,8 +30,8 @@
                     <td th:text="${ui.test.name}"></td>
                     <td th:text="${ui.userScore}"></td>
                     <td>
-                        <a th:href="@{/user/admin/usertest/{utId}/questions(utId=${ui.id})}" class="btn btn-primary">Вопросы</a> 
-                        <a th:href="@{/user/admin/usertest/{utId}/rating(utId=${ui.id})}" class="btn btn-primary">Рейтинг</a>
+                        <a th:href="@{/user/admin/usertest/{utId}/questions(utId=${ui.id})}" class="btn btn-primary">Пройденные вопросы</a> 
+                        <a th:href="@{/user/admin/usertest/{utId}/rating(utId=${ui.id})}" class="btn btn-primary">Рейтинг пользователя</a>
                     </td>
                 </tr>
             </tbody>

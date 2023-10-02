@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface TestService {
     Test getOne(Long id);
+    Long getThemeIdByTestId(Long testId);
     Page<Question> getQuestionsByTestId(Long testId, Pageable pageable);
     Question getQuestion(Long questionId);
     Question addQuestion(Long testId, Question question);

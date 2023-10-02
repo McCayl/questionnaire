@@ -11,17 +11,19 @@
             th:action="@{/test/{testId}/executing/save?userTestId={userTestId}&token={token}(testId=${testId},userTestId=${executingTest.userTest.id},token=${token})}" 
             th:object="${executingTest}" 
             method="post" 
-            style="max-width: 350px; margin: 0 auto;">
+            style="max-width: 550px; margin: 0 auto;">
             <div class="border border-secondary p-3 rounded">
-                <p th:text="*{question.text}"></p>
-                <div id="clock" onload="updateTime()"></div>
+                <h4><p th:text="*{question.text}"></p></h4>
+                <h4><div id="clock" onload="updateTime()"></div></h4>
                 <ul>
                     <li th:each="answer : *{answers}">
                         <input type="hidden" th:value="${question}" th:field="*{question}" />
                         <input type="hidden" th:value="${userTest}" th:field="*{userTest}" />
-                        <input th:if="*{numberOfCorrectAnswers > 1}" type="checkbox" th:value="${answer.id}" th:field="*{userAnswers}"/>
-                        <input th:unless="*{numberOfCorrectAnswers > 1}" type="radio" th:value="${answer.id}" th:field="*{userAnswers}"/>
-                        <label th:text="${answer.text}"></label>
+                        <h5>
+                            <input th:if="*{numberOfCorrectAnswers > 1}" type="checkbox" th:value="${answer.id}" th:field="*{userAnswers}"/>
+                            <input th:unless="*{numberOfCorrectAnswers > 1}" type="radio" th:value="${answer.id}" th:field="*{userAnswers}"/>
+                            <label th:text="${answer.text}"></label>
+                        </h5>
                     </li>
                 </ul>
                 <p>

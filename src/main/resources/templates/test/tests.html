@@ -7,12 +7,13 @@
 <body>
     <div th:replace="~{fragments/header :: header}"/>
     <div class="container">
+        <h4>Тематический рейтинг</h4>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>rank</th>
+                    <th>Ранг</th>
                     <th>email</th>
-                    <th>score</th>
+                    <th>Баллы</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +29,7 @@
             <thead>
                 <tr>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
-                    <th>Name</th>
+                    <th>Название теста</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
                 </tr>
             </thead>
@@ -43,9 +44,9 @@
                         style="color: gray;"></a>
                     </td>
                     <td sec:authorize="hasRole('ROLE_ADMIN')">
-                        <form th:action="@{/test/{id}/delete(id=${test.id})}" method="post">
+                        <form th:action="@{/test/{id}/delete?themeId={themeId}(id=${test.id},themeId=${themeId})}" method="post">
                             <a th:href="@{/test/{id}/questions(id=${test.id})}" class="btn btn-primary">Перейти к вопросам</a> 
-                            <a th:href="@{/test/{id}/update(id=${test.id})}" class="btn btn-primary">Update</a>
+                            <a th:href="@{/test/{id}/update?themeId={themeId}(id=${test.id},themeId=${themeId})}" class="btn btn-primary">Update</a>
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
@@ -55,6 +56,7 @@
 
         <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
             <a th:href="@{/test/save?themeId={themeId}(themeId=${themeId})}" class="btn btn-primary">Add</a>
+            <a class="btn btn-primary" onclick="location.href='/theme'">Назад</a>
         </div>
         <!-- tests pagination -->
         <nav th:replace="fragments/pagination :: pagination(${tests}, ${url})"></nav>

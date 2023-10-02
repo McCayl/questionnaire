@@ -10,7 +10,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Text</th>
+                    <th>Вопрос</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -18,11 +18,12 @@
                 <tr th:each="q : ${questions}">
                     <td th:text="${q.text}"></td>
                     <td>
-                        <a th:href="@{questions/{qId}/answers(qId=${q.id})}" class="btn btn-primary">Ответы</a> 
+                        <a th:href="@{questions/{qId}/answers(qId=${q.id})}" class="btn btn-primary">Выбранные ответы</a> 
                     </td>
                 </tr>
             </tbody>
         </table>
+        <a class="btn btn-primary" onclick="history.back()">Назад</a>
         <!-- questions pagination -->
         <nav th:replace="fragments/pagination :: pagination(${questions}, ${url})"></nav>
     </div>

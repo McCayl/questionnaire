@@ -7,18 +7,19 @@
 <body>
     <div th:replace="~{fragments/header :: header}"/>
     <div class="container-fluid text-center">
-        <form method="post" th:action="@{/auth/signup}" th:object="${email}" style="max-width: 350px; margin: 0 auto;">
+        <form method="post" th:action="@{/auth/signup}" th:object="${email}" style="max-width: 550px; margin: 0 auto;">
             <div class="border border-secondary p-3 rounded">
-                <p>Регистрация</p>
+                <h4><p>Регистрация</p></h4>
                 <div><h5>Ссылка для задания пароля будет отправлена на адрес электронный почты</h5></div>
                 <p>
                     <input type="email" name="email" class="form-control" placeholder="E-mail" required autofocus/>
                 </p>
                 <p>
+                    <h4>Есть аккаунт?</h4>
                     <a th:href="@{/auth/signin}">Войти</a>&nbsp;
                 </p>
                 <p>
-                    <input type="submit" value="Отправить" class="btn btn-default" />
+                    <input type="submit" value="Отправить" class="btn btn-primary" />
                 </p>
             </div>
         </form>      

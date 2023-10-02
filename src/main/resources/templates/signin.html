@@ -7,18 +7,9 @@
 <body>
     <div th:replace="~{fragments/header :: header}"/>
     <div class="container-fluid text-center">
-        <form method="post" th:action="@{/auth/signin}" th:object="${Login}" style="max-width: 350px; margin: 0 auto;">
-         
-            <div th:if="${param.error}">
-                <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-            </div>
-             
-            <div th:if="${param.logout}">
-                <p class="text-warning">You have been logged out.</p>
-            </div>
-             
+        <form method="post" th:action="@{/auth/signin}" th:object="${login}" style="max-width: 550px; margin: 0 auto;">
             <div class="border border-secondary p-3 rounded">
-                <p>Войти</p>
+                <h4><p>Войти</p></h4>
                 <p>
                     <input type="email" name="email" class="form-control" placeholder="E-mail" required autofocus/>
                 </p>
@@ -26,10 +17,11 @@
                     <input type="password" name="password" class="form-control" placeholder="Password" required />
                 </p>
                 <p>
+                    <h4>Нет аккаунта?</h4>
                     <a th:href="@{/auth/signup}">Регистрация</a>&nbsp;
                 </p>
                 <p>
-                    <input type="submit" value="Войти" class="btn btn-default" />
+                    <input type="submit" value="Войти" class="btn btn-primary" />
                 </p>
             </div>
         </form>      

@@ -29,6 +29,11 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public Long getThemeIdByTestId(Long testId) {
+        return testRepository.getThemeIdByTestId(testId);
+    }
+
+    @Override
     public Page<Question> getQuestionsByTestId(Long testId, Pageable pageable) {
         return questionRepository.findQuestionsByTestId(testId, pageable);
     }

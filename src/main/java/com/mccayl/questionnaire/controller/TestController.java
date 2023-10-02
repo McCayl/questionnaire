@@ -24,9 +24,11 @@ public class TestController {
 
     @GetMapping("{testId}/update")
     public String updateTestPage(@PathVariable Long testId,
+                                 @RequestParam Long themeId,
                                  Model model) {
         Test test = testService.getOne(testId);
         model.addAttribute("test", test);
+        model.addAttribute("themeId", themeId);
         return "test/updTest";
     }
 
@@ -40,20 +42,21 @@ public class TestController {
     }
 
     @PostMapping("update")
-    public String updateTest(@RequestParam(required = false) Long themeId,
+    public String updateTest(@RequestParam Long themeId,
                              @ModelAttribute("test") Test test) {
         if (test.getId() == null) {
             testService.save(themeId, test);
         } else {
             testService.edit(test.getId(), test);
         }
-        return "redirect:/theme";
+        return "redirect:/theme/" + themeId + "/tests";
     }
 
     @PostMapping("{testId}/delete")
-    public String deleteTest(@PathVariable Long testId) {
+    public String deleteTest(@PathVariable Long testId,
+                             @RequestParam Long themeId) {
         testService.del(testId);
-        return "redirect:/theme";
+        return "redirect:/theme/" + themeId + "/tests";
     }
 
     @GetMapping("{testId}/questions")
@@ -63,6 +66,7 @@ public class TestController {
                                    Model model) {
         model.addAttribute("questions",
                 testService.getQuestionsByTestId(testId, PageRequest.of(page - 1, size)));
+        model.addAttribute("themeId", testService.getThemeIdByTestId(testId));
         model.addAttribute("url", "test/" + testId + "/questions");
         return "test/questions";
     }
@@ -111,6 +115,7 @@ public class TestController {
                                  Model model) {
         model.addAttribute("answers",
                 testService.getAnswersByQuestionId(questionId, PageRequest.of(page - 1, size)));
+        model.addAttribute("testId", testId);
         model.addAttribute("url", "test/" + testId + "/questions" + questionId + "/answers");
         return "test/answers";
     }
@@ -146,14 +151,14 @@ public class TestController {
             testService.addAnswer(testId, questionId, answer);
         else
             testService.editAnswer(testId, answer.getId(), answer);
-        return "redirect:/test/{testId}/questions";
+        return "redirect:/test/{testId}/questions/{questionId}/answers";
     }
 
     @PostMapping("{testId}/questions/{questionId}/delete/answer/{answerId}")
     public String deleteAnswer(@PathVariable Long testId,
                                @PathVariable Long answerId) {
         testService.delAnswer(testId, answerId);
-        return "redirect:/test/{testId}/questions";
+        return "redirect:/test/{testId}/questions/{questionId}/answers";
     }
 
     @GetMapping("{testId}/before")

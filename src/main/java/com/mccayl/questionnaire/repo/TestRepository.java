@@ -14,4 +14,10 @@ public interface TestRepository extends JpaRepository<Test, Long> {
             where t.id = :test_id
             """)
     Optional<Test> findTestById(@Param("test_id") Long testId);
+    @Query("""
+            select t.theme.id
+            from Test t
+            where t.id = :test_id
+            """)
+    Long getThemeIdByTestId(@Param("test_id") Long testId);
 }

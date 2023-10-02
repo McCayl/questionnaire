@@ -8,14 +8,16 @@ import com.mccayl.questionnaire.model.Theme;
 import com.mccayl.questionnaire.repo.ThemeRepository;
 import com.mccayl.questionnaire.service.ThemeService;
 import com.mccayl.questionnaire.service.UserTestService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class ThemeServiceImpl implements ThemeService {
 
     private final ThemeRepository themeRepository;
     private final UserTestService userTestService;
+    private final static int NUMBER_OF_RATING_USERS = 10;
     @Override
     public Page<Theme> getThemes(Pageable pageable) {
         return themeRepository.getThemes(pageable);
@@ -41,7 +44,7 @@ public class ThemeServiceImpl implements ThemeService {
 
         userScore.sort(byScoreDesc);
 
-        int resultSize = Math.min(userScore.size(), 10);
+        int resultSize = Math.min(userScore.size(), NUMBER_OF_RATING_USERS);
         for (int i = 0; i != resultSize; i++) {
             UserScoreDTO userScoreDTO = userScore.get(i);
             userRating.add(new UserRatingDTO(i + 1, userScoreDTO.getEmail(), userScoreDTO.getScore()));

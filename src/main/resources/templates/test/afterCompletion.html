@@ -8,8 +8,10 @@
     <div th:replace="~{fragments/header :: header}"/>
     <div class="container-fluid text-center">
         <div class="border border-secondary p-3 rounded" style="max-width: 350px; margin: 0 auto;">
-            <p>Поздравляем!</p>
-            <p>Вы набрали: <span th:text="${userScore}"></span> баллов!</p>
+            <h4>
+                <p>Поздравляем!</p>
+                <p>Вы набрали: <span th:text="${userScore}"></span> баллов!</p>
+            </h4>
         </div>      
     </div>
 </body>

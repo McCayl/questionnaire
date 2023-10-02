@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
-                    <th>Text</th>
+                    <th>Ответ</th>
                     <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
                 </tr>
             </thead>
@@ -33,6 +33,7 @@
 
         <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
             <a th:href="@{/test/{testId}/questions/{questionId}/save/answer(testId=${testId},questionId=${questionId})}" class="btn btn-primary">Add</a>
+            <a class="btn btn-primary" th:onclick="location.href='/test/[[${testId}]]/questions'">Назад</a>
         </div>
         <!-- answers pagination -->
         <nav th:replace="fragments/pagination :: pagination(${answers}, ${url})"></nav>

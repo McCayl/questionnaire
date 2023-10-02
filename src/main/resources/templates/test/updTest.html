@@ -24,16 +24,16 @@
                     Доступен пользователю <input type="checkbox" th:field="*{available}"/>
                 </p>
                 <p>
-                    <input type="number" th:field="*{attempts}" class="form-control" 
-                    placeholder="Количество попыток" min="1" required />
+                    <input type="number" th:field="*{attempts}" min="1" class="form-control" 
+                    placeholder="Количество попыток" required />
                 </p>
                 <p>
-                    <input type="number" th:field="*{runtimeInMin}" class="form-control" 
-                    placeholder="Время выполнения" min="1" required />
+                    <input type="number" th:field="*{runtimeInMin}" min="1" class="form-control" 
+                    placeholder="Время выполнения" required />
                 </p>
                 <p>
                     <input type="number" th:field="*{coeffOfCorrectAnswer}" class="form-control" 
-                    placeholder="Модфикатор очков за правильный ответ" min="0.01" step="0.01" required />
+                    placeholder="Модификатор очков за правильный ответ" min="0.01" step="0.01" required />
                 </p>
                 <p>
                     <input type="submit" value="Отправить" class="btn btn-default" />

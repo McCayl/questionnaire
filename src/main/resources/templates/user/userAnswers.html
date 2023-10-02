@@ -10,8 +10,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Text</th>
-                    <th>IsCorrect</th>
+                    <th>Ответ</th>
+                    <th>Верный</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +21,7 @@
                 </tr>
             </tbody>
         </table>
+        <a class="btn btn-primary" onclick="history.back()">Назад</a>
         <!-- answers pagination -->
         <nav th:replace="fragments/pagination :: pagination(${answers}, ${url})"></nav>
     </div>
