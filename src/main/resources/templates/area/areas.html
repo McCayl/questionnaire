@@ -1,0 +1,29 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <div th:replace="~{fragments/header :: header-css}"/>
+    <title>Areas</title>
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"/>
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">ID</th>
+                    <th>Ответ</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="area : ${areas}">
+                    <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${area.id}"></td>
+                    <td>
+                        <span th:text="${area.name}"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

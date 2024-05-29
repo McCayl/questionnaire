@@ -17,6 +17,7 @@
             </div>
             <ul class="navbar-nav">
                 <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/theme}">Темы</a></li>
+                <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/area}">Области</a></li>
                 <li sec:authorize="isAuthenticated()"><a class="nav-link" th:href="@{/user/profile}">Профиль</a></li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link" th:href="@{/user/admin/usertest}">Админ</a></li>  
                 <li sec:authorize="!isAuthenticated()"><a class="nav-link" th:href="@{/auth/signin}">Авторизация</a></li>   
