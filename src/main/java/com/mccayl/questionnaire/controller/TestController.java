@@ -2,6 +2,7 @@ package com.mccayl.questionnaire.controller;
 
 import com.mccayl.questionnaire.dto.ExecutingTestDTO;
 import com.mccayl.questionnaire.model.*;
+import com.mccayl.questionnaire.service.AreaService;
 import com.mccayl.questionnaire.service.JwtService;
 import com.mccayl.questionnaire.service.TestService;
 import com.mccayl.questionnaire.service.UserTestService;
@@ -22,6 +23,7 @@ public class TestController {
     private final TestService testService;
     private final UserTestService userTestService;
     private final JwtService jwtService;
+    private final AreaService areaService;
 
     @GetMapping("{testId}/update")
     public String updateTestPage(@PathVariable Long testId,
@@ -72,12 +74,11 @@ public class TestController {
         return "test/questions";
     }
 
-    @GetMapping("{testId}/save/question")
-    public String saveQuestionPage(@PathVariable Long testId,
-                                   Model model) {
+    @GetMapping("save/question")
+    public String saveQuestionPage(Model model) {
         Question question = new Question();
         model.addAttribute("question", question);
-        model.addAttribute("testId", testId);
+
         return "test/updQuestion";
     }
 
@@ -91,13 +92,11 @@ public class TestController {
         return "test/updQuestion";
     }
 
-    @PostMapping("{testId}/update/question")
-    public String updateQuestion(@PathVariable Long testId,
+    @PostMapping("update/question")
+    public String updateQuestion(@RequestParam Long areaId,
                                  @ModelAttribute("question") Question question) {
-        if (question.getId() == null)
-            testService.addQuestion(testId, question);
-        else
-            testService.editQuestion(testId, question.getId(), question);
+        question.setArea(areaService.getAreaById(areaId));
+
         return "redirect:/test/{testId}/questions";
     }
 
