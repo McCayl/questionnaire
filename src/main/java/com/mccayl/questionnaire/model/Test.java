@@ -1,12 +1,11 @@
 package com.mccayl.questionnaire.model;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
@@ -25,15 +24,4 @@ public class Test {
     @JoinColumn(name = "theme_id")
     @ToString.Exclude
     private Theme theme;
-    @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "test_id")
-    private List<Question> questions;
-
-    public void addQuestion(Question question) {
-        questions.add(question);
-    }
-
-    public void delQuestion(Question question) {
-        questions.remove(question);
-    }
 }

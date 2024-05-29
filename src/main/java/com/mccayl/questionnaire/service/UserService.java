@@ -2,7 +2,6 @@ package com.mccayl.questionnaire.service;
 
 import com.mccayl.questionnaire.dto.TestScoreDTO;
 import com.mccayl.questionnaire.dto.ThemeRatingDTO;
-import com.mccayl.questionnaire.dto.UserRatingDTO;
 import com.mccayl.questionnaire.model.Answer;
 import com.mccayl.questionnaire.model.Question;
 import com.mccayl.questionnaire.model.User;

@@ -2,6 +2,7 @@ package com.mccayl.questionnaire.service.impl;
 
 import com.mccayl.questionnaire.dto.EmailDTO;
 import com.mccayl.questionnaire.dto.LoginDTO;
+import com.mccayl.questionnaire.model.Role;
 import com.mccayl.questionnaire.model.User;
 import com.mccayl.questionnaire.repo.RoleRepository;
 import com.mccayl.questionnaire.service.AuthService;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 

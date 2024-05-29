@@ -35,7 +35,8 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Page<Question> getQuestionsByTestId(Long testId, Pageable pageable) {
-        return questionRepository.findQuestionsByTestId(testId, pageable);
+//        return questionRepository.findQuestionsByTestId(testId, pageable);
+        return null;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class TestServiceImpl implements TestService {
         if (userTestRepository.getTestById(testId).isPresent()) {
             throw new TestNotEditedException(testId);
         }
-        test.addQuestion(question);
+//        test.addQuestion(question);
         return questionRepository.saveAndFlush(question);
     }
 

@@ -1,10 +1,10 @@
 package com.mccayl.questionnaire.model;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,6 +16,8 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
+    @ManyToOne
+    private Area area;
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "question_id")
     private List<Answer> answers;

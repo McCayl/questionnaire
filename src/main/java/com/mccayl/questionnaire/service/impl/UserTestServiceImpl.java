@@ -70,7 +70,7 @@ public class UserTestServiceImpl implements UserTestService {
 
     @Override
     public List<Question> getNotCompletedQuestions(Long testId, UserTest userTest) {
-        List<Question> testQuestions = userTest.getTest().getQuestions();
+        List<Question> testQuestions = null;
         Set<Question> completedQuestions = userTest.getQuestions();
 
         return testQuestions.stream()
