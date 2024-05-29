@@ -22,6 +22,10 @@ public class UserTest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "test_id")
     private Test test;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "area_id")
+    private Area area;
+
     @ManyToMany
     @JoinTable(
             name = "user_test_question",
