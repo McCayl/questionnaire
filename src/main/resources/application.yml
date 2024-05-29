@@ -21,7 +21,12 @@ spring:
     properties.mail.smtp:
       auth: true
       starttls.enable: true
-
+  freemarker:
+    expose-session-attributes: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 security:
   jwt:
     secret: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w==
+

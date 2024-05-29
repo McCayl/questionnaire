@@ -1,5 +1,6 @@
 package com.mccayl.questionnaire.service.impl;
 
+import com.mccayl.questionnaire.exception.AreaNotFoundException;
 import com.mccayl.questionnaire.model.Area;
 import com.mccayl.questionnaire.repo.AreaRepository;
 import com.mccayl.questionnaire.service.AreaService;
@@ -20,6 +21,6 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area getAreaById(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElseThrow(() -> new AreaNotFoundException(id));
     }
 }

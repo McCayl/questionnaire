@@ -2,10 +2,7 @@ package com.mccayl.questionnaire.controller;
 
 import com.mccayl.questionnaire.dto.ExecutingTestDTO;
 import com.mccayl.questionnaire.model.*;
-import com.mccayl.questionnaire.service.AreaService;
-import com.mccayl.questionnaire.service.JwtService;
-import com.mccayl.questionnaire.service.TestService;
-import com.mccayl.questionnaire.service.UserTestService;
+import com.mccayl.questionnaire.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +21,8 @@ public class TestController {
     private final UserTestService userTestService;
     private final JwtService jwtService;
     private final AreaService areaService;
+    private final QuestionService questionService;
+
 
     @GetMapping("{testId}/update")
     public String updateTestPage(@PathVariable Long testId,
@@ -62,7 +61,7 @@ public class TestController {
         return "redirect:/theme/" + themeId + "/tests";
     }
 
-    @GetMapping("{testId}/questions")
+    @GetMapping("questions")
     public String getQuestionsPage(@PathVariable Long testId,
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "5") int size,
@@ -94,10 +93,11 @@ public class TestController {
 
     @PostMapping("update/question")
     public String updateQuestion(@RequestParam Long areaId,
-                                 @ModelAttribute("question") Question question) {
+                                 Question question) {
         question.setArea(areaService.getAreaById(areaId));
+        questionService.saveQuestion(question);
 
-        return "redirect:/test/{testId}/questions";
+        return "redirect:/";
     }
 
     @PostMapping("{testId}/questions/{questionId}/delete")
