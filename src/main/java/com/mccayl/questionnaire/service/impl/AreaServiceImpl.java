@@ -8,11 +8,18 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
     private final AreaRepository repository;
+
+    @Override
+    public List<Area> getAll() {
+        return repository.findAll();
+    }
 
     @Override
     public Area getAreaByName(String name) {
